@@ -1,15 +1,4 @@
-# File: Payroll.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 1/21/26
-# Description of Program:
-
-
-
-
-#Using input statement to get the user's name, how much they worked, pay rate, and tax rates 
+# Description of Program: Using input statement to get the user's name, how much they worked, pay rate, and tax rates 
 
 print()
 
