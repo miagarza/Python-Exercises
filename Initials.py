@@ -1,10 +1,3 @@
-# Assignment: HW1
-# File: Initials.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course: CS303E
-# 
-# Date: 1/15/26
 # Description of Program: Prints out the letters "MKG" with a width of 12 characters and a height of 10 lines
 
 
