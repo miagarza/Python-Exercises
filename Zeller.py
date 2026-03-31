@@ -1,10 +1,3 @@
-# Assignment: HW4
-# File: Zeller.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 1/29/26
 # Description of Program: User inputs the data numerically and the program responds with the
 #day of the week it falls on 
 
