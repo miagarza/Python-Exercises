@@ -1,10 +1,3 @@
-# Assignment: HW5
-# File: GradeStats.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 2/15/26
 # Description of Program: Finds the maximum, minimum, and average of inputed grades
 # along with the amount of passing/failing grades, and the total amount given. 
 
