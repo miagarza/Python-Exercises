@@ -1,9 +1,3 @@
-# File: ConvertUnits.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 1/21/26
 # Description of Program: Takes a measurement of feet and inches from the user
 # and converts it into English and metric units
 
