@@ -18,11 +18,14 @@ TRANSLATE="2"
 EXTEND_CHANGE="3"
 SHOW_MENU= "4"
 EXIT="5"
-
 ERROR="Action not recognized; please enter 1-5."
 BAD_TERM="Term not defined: "
 
+
 LEGAL_COMMANDS = [EXPLAIN_TERM, TRANSLATE, EXTEND_CHANGE, SHOW_MENU, EXIT]
+
+PUNC=["!", ",", "?", ".", ":"]
+
 
 #so could i just store it by indexing into before and after the :, 
 # then grabbing that string and putting it into a dict
@@ -36,8 +39,9 @@ LEGAL_COMMANDS = [EXPLAIN_TERM, TRANSLATE, EXTEND_CHANGE, SHOW_MENU, EXIT]
 def ask():
     new_dict={}
     question=input("Specify file containing terms and definitions: ").lower()
+
     userfile=open(question, "r")
-    print(userfile)
+    #print(userfile)
     if question:
         print("Building dictionary from: "+ question)
         for line in userfile:
@@ -61,9 +65,13 @@ def actions(new_dict):
     while True: 
         print()
         choose= input("Choose an action (1-5): ")
+
+
         if choose not in LEGAL_COMMANDS:
             print("Action not recognized; please enter 1-5.")
             continue
+
+
         if choose is EXPLAIN_TERM:
             #print("EXPLAIN_TERM")
             var=input("     Please enter a term to explain: ")
@@ -78,7 +86,20 @@ def actions(new_dict):
                 
 
         if choose is TRANSLATE:
+            newstr=""
             print("TRANSLATE")
+            var2="Please enter a message to translate: "
+            for i in var2:
+                if i in PUNC:
+                    newstr=newstr+" "+i+" "
+                else:
+                    newstr=newstr+i
+            newstr=newstr.split
+
+
+
+
+
         if choose is EXTEND_CHANGE:
             print("EXTEND_CHANGE")
         if choose is SHOW_MENU:
