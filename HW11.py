@@ -10,7 +10,6 @@
 #import os
 #print(os.listdir())
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 EXPLAIN_TERM="1"
@@ -25,6 +24,12 @@ BAD_TERM="Term not defined: "
 LEGAL_COMMANDS = [EXPLAIN_TERM, TRANSLATE, EXTEND_CHANGE, SHOW_MENU, EXIT]
 
 PUNC=["!", ",", "?", ".", ":"]
+MENU="""The following actions are available: 
+1 - Explain a term.   
+2 - Translate a message.
+3 - Extend/Change the dictionary. 
+4 - Show this menu. 
+5 - Exit the application """
 
 
 #so could i just store it by indexing into before and after the :, 
@@ -38,29 +43,28 @@ PUNC=["!", ",", "?", ".", ":"]
 
 def ask():
     new_dict={}
-    question=input("Specify file containing terms and definitions: ").lower()
+    file_name=input("Specify file containing terms and definitions: ") + ".txt"
 
-    userfile=open(question, "r")
-    #print(userfile)
-    if question:
-        print("Building dictionary from: "+ question)
+    userfile=open(file_name, "r")
+
+    
+    if not file_name:
+        print("File does not exist: "+ file_name)
+
+
+    if file_name:
+        print("Building dictionary from: "+ file_name)
         for line in userfile:
             line=line.strip()
             key, value = line.split(":")
-            new_dict[key.strip()] = value.strip().lower()
-    actions(new_dict)
+            new_dict[key.strip()] = value.strip()
+        actions(new_dict)
 
 
 
 def actions(new_dict):
-    #do i put this whole thing in a while True loop? 
     print()
-    print("The following actions are available: \n"
-            "1 - Explain a term. \n"
-            "2 - Translate a message.\n"
-            "3 - Extend/Change the dictionary. \n"
-            "4 - Show this menu. \n"
-            "5 - Exit the application \n")
+    print(MENU)
     
     while True: 
         print()
@@ -69,53 +73,70 @@ def actions(new_dict):
 
         if choose not in LEGAL_COMMANDS:
             print("Action not recognized; please enter 1-5.")
+            print()
             continue
 
 
-        if choose is EXPLAIN_TERM:
+        if choose == EXPLAIN_TERM:
             #print("EXPLAIN_TERM")
             var=input("     Please enter a term to explain: ")
+            print()
             if var not in new_dict:
                 print("Term not defined:", var)
-                print()
                 continue
             elif var in new_dict:
-                print()
                 print(var, ": ", new_dict[var], sep="")
 
                 
-
-        if choose is TRANSLATE:
+        #task 2, breaking up if punctuation 
+        if choose == TRANSLATE:
             newstr=""
-            print("TRANSLATE")
-            var2="Please enter a message to translate: "
+        
+            var2=input("    Please enter a message to translate: ")
             for i in var2:
                 if i in PUNC:
                     newstr=newstr+" "+i+" "
                 else:
                     newstr=newstr+i
-            newstr=newstr.split
+            newstr=newstr.split()
+           
+
+            for i in range(len(newstr)):
+                if newstr[i] in new_dict:
+                    newstr[i]=new_dict[newstr[i]]
+            final=" ".join(newstr)
+            print()
+            print("Message Translation: "+ final)
+            #print()
+
+
+        #3 adds a new term and definition to the dict 
+        if choose == EXTEND_CHANGE:
+            added_term=input("  Add the following term: ").upper()
+            print(added_term)
+            added_def=input("   With definition: ")
+            new_dict[added_term]=added_def
 
 
 
+        #4 just show the menu
+        if choose == SHOW_MENU:
+            print()
+            print(MENU)
 
 
-        if choose is EXTEND_CHANGE:
-            print("EXTEND_CHANGE")
-        if choose is SHOW_MENU:
-            print("SHOW_MENU")
-        if choose is EXIT:
-            print("EXIT")
+        #5 EXIT evth
+        if choose == EXIT:
+            print()
+            print("Thanks for using this app. Goodbye!")
+            print()
+            break
 
 
-
-
-
-#def get_it():
 
     
 
 print()
 print("Welcome to the Text Translator application. ")
-ask()
 print()
+ask()
