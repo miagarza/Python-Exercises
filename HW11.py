@@ -1,14 +1,5 @@
-# File: TextTranslate.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 4/5
 # Description of Program: Decrypts genz slang for unfamiliar populations
 
-
-#import os
-#print(os.listdir())
 import os
 
 
