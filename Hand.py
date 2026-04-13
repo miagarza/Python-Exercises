@@ -1,4 +1,40 @@
+""" This file includes a class Hand which implements a hand of five playing
+    cards, where cards are defined in the Card class.   
 
+    The Hand class defines the following methods:
+
+    Hand( source, fromDeck ):  creates a new hand object of 5 Cards. This happens
+         in one of two ways depending on the value of fromDeck: 
+         (1) if fromDeck is True, deal 5 cards from an existing deck
+             passed as source, 
+         (2) if fromDeck is not True, create the cards from a list of 5 card 
+             specifiers passed as source, e.g., ("2S", "9S", "TC", "AH", "4D") 
+             will create a hand containing the 2 of Spades, 9 of Spades, 10 of Clubs, 
+             Ace of Hearts, and 4 of Diamonds.  Generating a single card from a 
+             spec is implemented in the Card class.  You need to check that this
+             list is legal (contains exactly 5 legal card specifiers, all distinct).
+    h.__str__(): generate the print representation of Hand h, using the
+         str function on each of the individual Cards it contains (see the Deck
+         class for a model for this);
+    h.getCard( i ): recall that h is a hand of 5 Cards.  This provides a 
+         way of getting the ith card from the hand, for example, to iterate 
+         through the hand in a loop. 
+
+    This file also contains a number of other functions (outside the class), mainly
+    to allow evaluating a hand in the sense of playing Poker.  You can have as many
+    functions as you need, but you must have the function evaluateHand( hand ). 
+    Given a hand, it prints the hand and then the "evaluation" of the hand in 
+    the sense of a Poker hand.  This is described in detail in the assignment description.   
+
+"""
+
+################################################################################
+#                                                                              #
+#                                 Hand Class                                   #
+#                                                                              #
+################################################################################
+
+# I don't need to import Card, since Deck already does.
 from Deck import *
 
 def isLegalCardList( l ):
@@ -16,12 +52,20 @@ def isLegalCardList( l ):
         if not isLegalCardSpecifier(i):
             return False
     return True
-        
-    pass  
+          
 
 class Hand:
 
     def __init__(self, source, fromDeck = True):
+        """ A hand is simply a list of 5 cards, dealt from the deck
+            or given as a list of five card specifiers.  If fromDeck
+            is True, expect to deal from a deck passed as source. 
+            If False, expect source to be a list of five Card specifiers.
+            Create the hand from the specified cards.
+        """
+
+
+
         if fromDeck:
             if ( len(source) < 5 ):
                 print ( "Not enough cards left!" )
@@ -33,6 +77,10 @@ class Hand:
         elif not isLegalCardList( source ):
             print("Illegal card list provided.")
         else:
+            # fill in this code, to generate a hand from
+            # a list of Card specifiers.  You can assume that
+            # source is a list,
+
             #MG- create list self.__cards=[]
             #go thru each item in source
             #turn it into a card
@@ -60,8 +108,12 @@ class Hand:
         else:
             value=None
         return value
-
-
+            
+################################################################################
+#                                                                              #
+#                                Evaluate Hand                                 #
+#                                                                              #
+################################################################################
 
 def processHand(hand):
     """ Given a poker hand, create and return two lists which
@@ -85,6 +137,12 @@ def processHand(hand):
     #pass
 
 
+# You'll need to define all of the auxiliary functions called by
+# evaluateHand.  Notice that these auxiliary functions don't all
+# need both myRanks and mySuits, but I decided to pass them both
+# just to make the interface more uniform.  You can change that 
+# if you want to.
+
 def hasPair( myRanks, mySuits ):
     for i in myRanks:
         if i==2:
@@ -107,10 +165,32 @@ def hasThreeOfAKind( myRanks, mySuits ):
             return True
     return False
 
-
+"""
 #FIX THIS ONE!!!!!!!!
 def hasStraight( myRanks, mySuits ):
-    for i in myRanks:
+    for [i] in myRanks:
+        count=0
+
+        if myRanks[i]==1: 
+            count+=1                
+        if myRanks[i+1]==1:
+            count+=1
+        if myRanks[i+2]==1:
+            count+=1
+        if myRanks[i+3]==1:
+            count+=1
+        if myRanks[i+4]==1:
+            count+=1
+
+        if count==5:
+            return True
+    return False
+"""
+
+
+#good to go 
+def hasStraight( myRanks, mySuits ):
+    for i in range(len(myRanks)-4):
         count=0
 
         if myRanks[i]==1: 
@@ -127,6 +207,24 @@ def hasStraight( myRanks, mySuits ):
         if count==5:
             return True
         
+    count2=0
+    if myRanks[12]==1: 
+        count2+=1                
+    if myRanks[0]==1:
+        count2+=1
+    if myRanks[1]==1:
+        count2+=1
+    if myRanks[2]==1:
+        count2+=1
+    if myRanks[3]==1:
+        count2+=1
+    if count2==5:
+        return True
+    
+    return False 
+
+
+        
 def hasFlush( myRanks, mySuits ):
     for i in mySuits:
         if i==5:
@@ -135,16 +233,14 @@ def hasFlush( myRanks, mySuits ):
 
 
 def hasFullHouse( myRanks, mySuits ):
+    value1=False
+    value2=False
+
     for i in myRanks:
         if i==2:
             value1=True
-        else:
-            value1=False
-    for i in myRanks:
         if i==3:
             value2=True
-        else:
-            value2=False
     return value1 and value2
 
 
@@ -158,32 +254,8 @@ def hasFourOfAKind( myRanks, mySuits ):
 
 #FIX THIS ONE TOO!!!!!!!
 def hasStraightFlush( myRanks, mySuits ):
-    for i in myRanks:
-        count=0
+    return hasStraight(myRanks, mySuits) and hasFlush(myRanks, mySuits)
 
-        if myRanks[i]==1:
-            count+=1                
-        if myRanks[i+1]==1:
-            count+=1
-        if myRanks[i+2]==1:
-            count+=1
-        if myRanks[i+3]==1:
-            count+=1
-        if myRanks[i+4]==1:
-            count+=1
-
-        if count==5:
-            value1=True
-        else:
-            value1=False
-
-    for i in mySuits:
-        if i==5:
-            value2=True 
-        else:
-            value2=False
-
-    return value1 and value2
 
 
 def hasRoyalFlush( myRanks, mySuits ):
@@ -192,13 +264,12 @@ def hasRoyalFlush( myRanks, mySuits ):
         if i==1:
             count+=1
 
-    value2=False
-    for i in mySuits:
-        if i==5:
-            value2=True
+    return(count==5 and hasFlush(myRanks, mySuits))
 
-    return(count==5 and value2)
 
+# Add other recognizers here; evaluateHand tells you which ones you
+# need.  I suggest doing them in "reverse order" so you define the 
+# lowest hands first. Hopefully, you'll see why as you code them!
 
 def evaluateHand( hand ):
     myRanks, mySuits = processHand( hand )
@@ -233,17 +304,32 @@ def evaluateHand( hand ):
     else:
         print( "Nothing" )
 
+# This is some test code.  You can modify this or write your
+# own.  You certainly should test additional hands. You can run 
+# this in interactive mode with:
+# 
+# from Hand import *
+# TestCode()
+#
+# You can also run this in batch mode by uncommenting the call to:
+# TestCode()
+#
+# and running:
+# 
+# python3 Hand.py              # or whatever the python command is
+#                              # is on your system. 
 
 
+"""
 def TestCode():
     print("\nGenerating and printing deck")
     d = Deck()
-    print(d)
+    #print(d)
     print("\nShuffling deck and printing deck")
     d.shuffle()
-    print(d)
+    #print(d)
 
-    print("\nGenerating hand fro3m deck")
+    print("\nGenerating hand from deck")
     h = Hand(d, True)
     evaluateHand( h )
 
@@ -262,5 +348,9 @@ def TestCode():
     h = Hand(cardSpec, False)
     evaluateHand( h )
 
-# TestCode()
+    print("\nGenerating hand from list")
+    h6 = Hand(d, True)              # back to dealing from the deck d
+    evaluateHand( h6 )
 
+TestCode()
+"""
