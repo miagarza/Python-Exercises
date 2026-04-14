@@ -1,10 +1,3 @@
-# Assignment: Project2
-# File: Poker.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 4/9/26
 # Description of Program: play poker with this program
 
 from Hand import *
