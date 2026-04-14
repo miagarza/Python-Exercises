@@ -1,10 +1,3 @@
-# Assignment: HW10
-# File: ScoreTests.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 3/28/25
 # Description of Program: grades a (wide and changing) variety of tests and validates inputs
 
 
