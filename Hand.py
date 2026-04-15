@@ -1,40 +1,4 @@
-""" This file includes a class Hand which implements a hand of five playing
-    cards, where cards are defined in the Card class.   
 
-    The Hand class defines the following methods:
-
-    Hand( source, fromDeck ):  creates a new hand object of 5 Cards. This happens
-         in one of two ways depending on the value of fromDeck: 
-         (1) if fromDeck is True, deal 5 cards from an existing deck
-             passed as source, 
-         (2) if fromDeck is not True, create the cards from a list of 5 card 
-             specifiers passed as source, e.g., ("2S", "9S", "TC", "AH", "4D") 
-             will create a hand containing the 2 of Spades, 9 of Spades, 10 of Clubs, 
-             Ace of Hearts, and 4 of Diamonds.  Generating a single card from a 
-             spec is implemented in the Card class.  You need to check that this
-             list is legal (contains exactly 5 legal card specifiers, all distinct).
-    h.__str__(): generate the print representation of Hand h, using the
-         str function on each of the individual Cards it contains (see the Deck
-         class for a model for this);
-    h.getCard( i ): recall that h is a hand of 5 Cards.  This provides a 
-         way of getting the ith card from the hand, for example, to iterate 
-         through the hand in a loop. 
-
-    This file also contains a number of other functions (outside the class), mainly
-    to allow evaluating a hand in the sense of playing Poker.  You can have as many
-    functions as you need, but you must have the function evaluateHand( hand ). 
-    Given a hand, it prints the hand and then the "evaluation" of the hand in 
-    the sense of a Poker hand.  This is described in detail in the assignment description.   
-
-"""
-
-################################################################################
-#                                                                              #
-#                                 Hand Class                                   #
-#                                                                              #
-################################################################################
-
-# I don't need to import Card, since Deck already does.
 from Deck import *
 
 def isLegalCardList( l ):
