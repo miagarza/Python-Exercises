@@ -1,10 +1,3 @@
-# Assignment: HW8
-# File: MyStringFunctions.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: March 5, 2026
 # Description of Program: Variety of strings functions 
 
 
