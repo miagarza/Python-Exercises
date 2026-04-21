@@ -11,31 +11,27 @@ import os
 
 
 def main():
-    filename=input("Enter a filename: ")+ ".txt"
-
+    filename=input("Enter a filename: ")
+    print()
     if not os.path.exists(filename):
-        print("File not found"+ filename[:-4])
+        print("File not found"+ filename)
         print()
         return
     else:
         fullcount, uniquecount, newdict=createDictionary(filename)
 
-    sorted=sortByFrequency(newdict)
+
     mostfreq=mostFrequentWords(newdict,10)
-    wordlen=sortByWordLength(newdict)
     longwords=longestWords(newdict,10)
     shortwords=shortestWords(newdict,10)
-    print()
-    #print(sorted)
-    print()
-    print(mostfreq)
-    print()
-    #print(wordlen)
-    print()
-    print(longwords)
-    print()
-    print(shortwords)
-    print()
+
+
+    print("Text analysis of file: ", filename)
+    print("  Total word count:  ", fullcount)
+    print("  Unique word count: ", uniquecount)
+    print("  10 most frequent words: \n  ", mostfreq)
+    print("  10 longest words: \n  ", longwords)
+    print("  10 shortest words: \n  ", shortwords)
 
 def cleanLine( s ):
     """Given a string s, remove designated punctuation and convert others:
@@ -106,8 +102,6 @@ def createDictionary( filename ):
 
             if word in newdict:
                 newdict[word]+=1
-            #elif word in seenalr:
-                #continue
             elif word in wordsToExclude:
                 if word not in seenalr:
                     seenalr.add(word)
@@ -128,7 +122,6 @@ def sortByFrequency( newdict ):
     sorted by count in descending order. I.e., 
     the most frequent word should be first in the
     list."""
-    #sorted=sortByFrequency(newdict)
     topten=[]
 
     for word in newdict:
@@ -139,7 +132,7 @@ def sortByFrequency( newdict ):
     topten.sort(reverse=True)
     #print(topten)
     return topten
-    pass
+
 
 
 # Think about how to use the function sortByFrequency
@@ -182,7 +175,6 @@ def sortByWordLength( newdict ):
 def longestWords( newdict, k ):
     """Return a list of the k longest words in the
     text."""
-    #longwords=longestWords(newdict)
     wordlen=sortByWordLength(newdict)
     longs=[]
 
@@ -190,9 +182,8 @@ def longestWords( newdict, k ):
         value=wordlen[word][1]
         longs.append(value)
 
-    #print(longs)
     return longs
-    pass
+
 
 
 # Think about how to use the function sortByWordLength
@@ -203,14 +194,12 @@ def shortestWords( newdict, k ):
     wordlen=sortByWordLength(newdict)
     short=[]
 
-    for word in range(k):
-        value1=wordlen[word][-k:]
-        short.append(value1)
+    for word in range(-1,-k-1,-1):
+        value=wordlen[word][1]
+        short.append(value)
 
     #print(longs)
     return short
-
-    pass
 
 
 
