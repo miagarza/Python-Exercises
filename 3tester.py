@@ -1,57 +1,11 @@
-import os
-
-
-# newdict[key.lower()]=
-
-"""
-#toRemove = ".,;:?$()[]\u201C\u201D\u00A3"
-str="hello?? this, i$ a (test?)"
-toRemove = ".,;:?$()[]\u201C\u201D\u00A3"
-toTranslate = "\u2018\u2019\u2010\u2014\u2012-"
-"""
-
-"""
-count=0
-for letter in str:
-    for i in range(len(str)):
-        if str[i] in toRemove:
-            print("yes")
-            count+=1
-        else:
-            print("no")
-print(count)
-"""
-
-
-"""
-count=0
-for i in range(len(str)):
-    if str[i] in toRemove:
-        count+=1
-print(count)
-"""
-
-
-#str=[str]
-#print(str)
-
-newdict={}
-
-txt="""Rev. Martin Luther King Jr.: Five score years ago, a great American,
-in whose symbolic shadow we stand today, signed the Emancipation 
-Proclamation. This momentous decree came as a great beacon light of
-hope to millions of Negro slaves who had been seared in the flames of
-withering injustice. It came as a joyous daybreak to end the long
-night of their captivity."""
-
-# print(txt)
-# text=txt.split(" ")
-# print()
-# print(text)
-# print(newdict[text])
-
-
-
+# Assignment: Project 2
+# File: AnalyzeText.py
+# Student: Mia Garza
+# UT EID: mkg2545
+# Course Name: CS303E
+# 
+# Date: 4/19/26
+# Description of Program: complex 
 
 import os
 
@@ -60,12 +14,18 @@ def main():
     filename=input("Enter a filename: ")+ ".txt"
 
     if not os.path.exists(filename):
-        print("File does not exist"+ filename[:-4])
+        print("File not found"+ filename[:-4])
         print()
         return
     else:
-        createDictionary(filename)
+        fullcount, uniquecount, newdict=createDictionary(filename)
 
+    sorted=sortByFrequency(newdict)
+    mostfreq=mostFrequentWords(newdict,10)
+    wordlen=sortByWordLength(newdict)
+    print(sorted)
+    print(mostfreq)
+    
 
 def cleanLine( s ):
     """Given a string s, remove designated punctuation and convert others:
@@ -116,26 +76,111 @@ def createDictionary( filename ):
     words and the number of unique words in the text.  Certain very
     common words are not included in the dictionary, but are counted.
     Return a triple: (wordCount, uniqueWordCount, dictionary)."""
-    FullCount=0
+    fullcount=0
+    uniquecount=0
     newdict={}
+    seenalr=set()
 
     userfile=open(filename, "r")
+
     for line in userfile:
-        newlines=cleanLine(line)
-        key=newlines.split()
+        newlines=cleanLine(line)    
+        newlines=newlines.split()
 
-        for word in key:
+        for word in newlines:
             word=word.lower()
-            FullCount+=1
-            if word not in wordsToExclude or newdict:
-                #print("no")
-                newdict[key]=1
+
+            if word.isdigit():
+                continue
+            fullcount+=1
+
+            if word in newdict:
+                newdict[word]+=1
+            #elif word in seenalr:
+                #continue
+            elif word in wordsToExclude:
+                if word not in seenalr:
+                    seenalr.add(word)
+                    uniquecount+=1
             else:
-                #print("yes")
-                newdict[key]+=1
+                newdict[word]=1
+                uniquecount+=1
+
     userfile.close()
+    #print(fullcount, uniquecount, newdict)
+    return fullcount, uniquecount, newdict
 
-        #newdict[userfile.lower()]
 
 
+
+def sortByFrequency( newdict ):
+    """Return a list of pairs of (count, word)
+    sorted by count in descending order. I.e., 
+    the most frequent word should be first in the
+    list."""
+    topten=[]
+
+    for word in newdict:
+        count=newdict[word]
+        #topten.append((newdict[word], word))
+        topten.append((count,word))
+
+    topten.sort(reverse=True)
+    #print(topten)
+    return topten
+    pass
+
+
+# Think about how to use the function sortByFrequency
+# for this one.
+def mostFrequentWords( newdict, k ):
+    """Return a list of the k most frequently occurring 
+    words."""
+    newsorts=sortByFrequency(newdict)
+    most=[]
+    
+    for word in range(k):
+        #fix this
+        frq=newsorts[word][1]
+        most.append(frq)
+    
+    print(most)
+    return most
+
+
+
+def sortByWordLength( newdict ):
+    """Return a list of pairs of (length, word)
+    sorted by length in descending order. I.e.,
+    the longest word should be first in the list."""
+    length_lst=[]
+
+    for word in newdict:
+        length=len(word)
+        length_lst.append((length,word))
+
+    length_lst.sort(reverse=True)
+
+    print(length_lst)
+    return length_lst
+
+
+
+# Think about how to use the function sortByWordLength
+# for this one.
+def longestWords( newdict, k ):
+    """Return a list of the k longest words in the
+    text."""
+    #longwords=longestWords(newdict)
+    wordlen=sortByWordLength(newdict)
+    longs=[]
+
+    for word in range(k):
+        value=wordlen[word][1]
+        longs.append(value)
+
+    #print(longs)
+    return longs
+    pass
+#newdict[userfile.lower()]
 main()
