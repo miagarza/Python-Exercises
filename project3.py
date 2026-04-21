@@ -13,13 +13,29 @@ import os
 def main():
     filename=input("Enter a filename: ")+ ".txt"
 
-    if not os.path.exists():
-        print("File does not exist"+ filename[:-4])
+    if not os.path.exists(filename):
+        print("File not found"+ filename[:-4])
         print()
         return
     else:
-        createDictionary(filename)
+        fullcount, uniquecount, newdict=createDictionary(filename)
 
+    sorted=sortByFrequency(newdict)
+    mostfreq=mostFrequentWords(newdict,10)
+    wordlen=sortByWordLength(newdict)
+    longwords=longestWords(newdict,10)
+    shortwords=shortestWords(newdict,10)
+    print()
+    #print(sorted)
+    print()
+    print(mostfreq)
+    print()
+    #print(wordlen)
+    print()
+    print(longwords)
+    print()
+    print(shortwords)
+    print()
 
 def cleanLine( s ):
     """Given a string s, remove designated punctuation and convert others:
@@ -70,25 +86,133 @@ def createDictionary( filename ):
     words and the number of unique words in the text.  Certain very
     common words are not included in the dictionary, but are counted.
     Return a triple: (wordCount, uniqueWordCount, dictionary)."""
-    FullCount=0
+    fullcount=0
+    uniquecount=0
     newdict={}
+    seenalr=set()
 
-    userfile=open(filename, "r")    #keep
-    for line in userfile:   #keep
-        newlines=cleanLine(line)    #keep
-        key=newlines.split() #keep
+    userfile=open(filename, "r")
 
-        for word in key:    #keep
-            word=word.lower()  
-            #newdict[key.lower()]=value
-            FullCount+=1
-            if word not in wordsToExclude:
-                newdict[word]=1
-            else:
+    for line in userfile:
+        newlines=cleanLine(line)    
+        newlines=newlines.split()
+
+        for word in newlines:
+            word=word.lower()
+
+            if word.isdigit():
+                continue
+            fullcount+=1
+
+            if word in newdict:
                 newdict[word]+=1
+            #elif word in seenalr:
+                #continue
+            elif word in wordsToExclude:
+                if word not in seenalr:
+                    seenalr.add(word)
+                    uniquecount+=1
+            else:
+                newdict[word]=1
+                uniquecount+=1
+
     userfile.close()
+    #print(fullcount, uniquecount, newdict)
+    return fullcount, uniquecount, newdict
 
-        #newdict[userfile.lower()]
 
 
-  
+
+def sortByFrequency( newdict ):
+    """Return a list of pairs of (count, word)
+    sorted by count in descending order. I.e., 
+    the most frequent word should be first in the
+    list."""
+    #sorted=sortByFrequency(newdict)
+    topten=[]
+
+    for word in newdict:
+        count=newdict[word]
+        #topten.append((newdict[word], word))
+        topten.append((count,word))
+
+    topten.sort(reverse=True)
+    #print(topten)
+    return topten
+    pass
+
+
+# Think about how to use the function sortByFrequency
+# for this one.
+def mostFrequentWords( newdict, k ):
+    """Return a list of the k most frequently occurring 
+    words."""
+    newsorts=sortByFrequency(newdict)
+    most=[]
+    
+    for word in range(k):
+        #fix this
+        frq=newsorts[word][1]
+        most.append(frq)
+    
+    #print(most)
+    return most
+
+
+
+def sortByWordLength( newdict ):
+    """Return a list of pairs of (length, word)
+    sorted by length in descending order. I.e.,
+    the longest word should be first in the list."""
+    length_lst=[]
+
+    for word in newdict:
+        length=len(word)
+        length_lst.append((length,word))
+
+    length_lst.sort(reverse=True)
+
+    #print(length_lst)
+    return length_lst
+
+
+
+# Think about how to use the function sortByWordLength
+# for this one.
+def longestWords( newdict, k ):
+    """Return a list of the k longest words in the
+    text."""
+    #longwords=longestWords(newdict)
+    wordlen=sortByWordLength(newdict)
+    longs=[]
+
+    for word in range(k):
+        value=wordlen[word][1]
+        longs.append(value)
+
+    #print(longs)
+    return longs
+    pass
+
+
+# Think about how to use the function sortByWordLength
+# for this one.
+def shortestWords( newdict, k ):
+    """Return a list of the k shortest words in the
+    text."""
+    wordlen=sortByWordLength(newdict)
+    short=[]
+
+    for word in range(k):
+        value1=wordlen[word][-k:]
+        short.append(value1)
+
+    #print(longs)
+    return short
+
+    pass
+
+
+
+#newdict[userfile.lower()]
+main()
