@@ -1,11 +1,4 @@
-# File: RecursiveFunctions.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 4/11/26
-# Description of Program: Variety of recursive functions
-
+#a bunchhhhh of recursive functions
 
 
 def sumItemsInList( L ):
