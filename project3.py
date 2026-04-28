@@ -1,11 +1,4 @@
-# Assignment: Project 2
-# File: AnalyzeText.py
-# Student: Mia Garza
-# UT EID: mkg2545
-# Course Name: CS303E
-# 
-# Date: 4/19/26
-# Description of Program: complex 
+
 
 import os
 
